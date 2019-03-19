@@ -1,16 +1,22 @@
 const {
-    series
+    src,
+    dest,
+    series,
+    parallel,
+    watch
 } = require('gulp');
 
-function clean(cb) {
-    console.log('clean');
-    cb();
+const uglify = require('gulp-uglify');
+const sass = require('gulp-sass');
+
+function uglifyJS(cb) {
+    return src('src/js/**/*.js').pipe(uglify()).pipe(dest('dist'));
 }
 
-function build(cb) {
-    console.log('build');
-    cb();
+function compileScss() {
+    return src('src/scss/**/*.scss').pipe(sass()).pipe(dest('src/css'))
 }
 
+console.log(process.env.NODE_ENV);
 
-exports.default = series(clean, build);
+exports.default = series(uglifyJS, compileScss);
